@@ -23,11 +23,6 @@ if (Meteor.isClient) {
 
       Meteor.call("addResolution", title);
 
-      Resolutions.insert({
-        title: title,
-        createdAt: new Date()
-      });
-
       event.target.title.value = "";
 
       return false;
@@ -40,7 +35,7 @@ if (Meteor.isClient) {
 
   Template.resolution.events({
     'click .toggle-checked': function() {
-      Meteor.call("updateResolution", this._id, this.checked}});
+      Meteor.call("updateResolution", this._id, !this.checked);
     },
     'click .delete': function() {
       Meteor.call("deleteResolution", this._id);
@@ -73,6 +68,6 @@ Meteor.methods({
     Resolutions.update(id, {$set: {checked: checked}});
   },
   deleteResolution: function(id) {
-    Resolutions.remove(this._id);
-  };
+    Resolutions.remove(id);
+  }
 });
